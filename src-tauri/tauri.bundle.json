@@ -1,0 +1,8 @@
+{
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "publisher": "SSH MCP",
+    "copyright": "Independent project. Not affiliated with any company."
+  }
+}

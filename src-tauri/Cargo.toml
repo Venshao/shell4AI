@@ -1,0 +1,73 @@
+[package]
+name = "ssh-mcp"
+version = "0.1.0"
+description = "Independent desktop SSH MCP server. Not affiliated with any company."
+authors = ["SSH MCP Contributors"]
+edition = "2021"
+
+[lib]
+name = "ssh_mcp_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "ssh-mcp"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "=2.7.4", features = [] }
+
+[dependencies]
+aes-gcm = "0.10"
+anyhow = "1"
+async-trait = "0.1"
+axum = "0.8"
+base64 = "0.22"
+chrono = { version = "0.4", features = ["serde"] }
+dunce = "1"
+getrandom = "0.3"
+rmcp = { version = "3.8.0", features = ["transport-streamable-http-server"] }
+russh = { version = "0.65.0", default-features = false, features = ["ring", "rsa"] }
+russh-sftp = "3.0.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+schemars = "1.2.3"
+sha2 = "0.10"
+subtle = "2"
+tauri = { version = "=2.12.5", default-features = false, features = ["wry", "tray-icon", "common-controls-v6", "dynamic-acl"] }
+tauri-plugin-single-instance = "=2.3.2"
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+tokio-util = { version = "0.7", features = ["rt"] }
+tracing = "0.1"
+tracing-appender = "0.2"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+zeroize = "1"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61.2", features = [
+  "Win32_Foundation",
+  "Win32_Security_Cryptography",
+  "Win32_Storage_FileSystem",
+  "Win32_System_Memory",
+] }
+winreg = "0.55"
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }
+reqwest = { version = "0.12", features = ["json"] }
+tempfile = "3"
+
+[profile.bundle-dev]
+inherits = "dev"
+
+[profile.bundle-release]
+inherits = "release"
+lto = "thin"
+codegen-units = 1
+strip = true
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true

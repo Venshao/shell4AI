@@ -1,0 +1,33 @@
+node_modules/
+.cache/
+.venv/
+venv/
+
+# Runtime data and logs
+.dev-data/
+.packaged-data/
+*.log
+ui-screenshot*.png
+
+# Frontend and Rust build output
+src-tauri/frontend/
+src-tauri/target/
+dist/
+
+# Local secrets / machine data
+.env
+.env.*
+config.yaml
+*.pem
+*.key
+!.gitkeep
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Local Cargo mirror overrides (optional)
+src-tauri/.cargo/

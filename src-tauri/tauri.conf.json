@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "SSH MCP",
+  "version": "0.1.0",
+  "identifier": "app.sshmcp.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "./frontend"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "SSH MCP",
+        "width": 1120,
+        "height": 760,
+        "minWidth": 900,
+        "minHeight": 620,
+        "visible": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost data:; style-src 'self' 'unsafe-inline'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "publisher": "SSH MCP",
+    "copyright": "Independent project. Not affiliated with any company.",
+    "shortDescription": "Local desktop SSH MCP server",
+    "longDescription": "Independent personal/open desktop tool for managing SSH hosts and exposing a local MCP endpoint. Not affiliated with any company.",
+    "icon": ["icons/icon.png", "icons/icon.ico"]
+  }
+}
