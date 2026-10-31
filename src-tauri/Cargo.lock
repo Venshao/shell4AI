@@ -4642,6 +4642,44 @@ dependencies = [
 ]
 
 [[package]]
+name = "shell4ai"
+version = "0.1.0"
+dependencies = [
+ "aes-gcm 0.10.3",
+ "anyhow",
+ "async-trait",
+ "axum",
+ "base64 0.22.1",
+ "chrono",
+ "dunce",
+ "getrandom 0.3.4",
+ "reqwest 0.12.15",
+ "rmcp",
+ "russh",
+ "russh-sftp",
+ "schemars 1.2.3",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "subtle",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-single-instance",
+ "tempfile",
+ "thiserror 2.0.21",
+ "tokio",
+ "tokio-util",
+ "tower",
+ "tracing",
+ "tracing-appender",
+ "tracing-subscriber",
+ "uuid",
+ "windows-sys 0.61.2",
+ "winreg 0.55.0",
+ "zeroize",
+]
+
+[[package]]
 name = "shlex"
 version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4840,44 +4878,6 @@ dependencies = [
  "signature",
  "ssh-cipher",
  "ssh-encoding",
- "zeroize",
-]
-
-[[package]]
-name = "ssh-mcp"
-version = "0.1.0"
-dependencies = [
- "aes-gcm 0.10.3",
- "anyhow",
- "async-trait",
- "axum",
- "base64 0.22.1",
- "chrono",
- "dunce",
- "getrandom 0.3.4",
- "reqwest 0.12.15",
- "rmcp",
- "russh",
- "russh-sftp",
- "schemars 1.2.3",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "subtle",
- "tauri",
- "tauri-build",
- "tauri-plugin-single-instance",
- "tempfile",
- "thiserror 2.0.21",
- "tokio",
- "tokio-util",
- "tower",
- "tracing",
- "tracing-appender",
- "tracing-subscriber",
- "uuid",
- "windows-sys 0.61.2",
- "winreg 0.55.0",
  "zeroize",
 ]
 

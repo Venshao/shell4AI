@@ -216,7 +216,7 @@ pub fn build_mcp_router(
 }
 
 async fn health() -> Json<Value> {
-    Json(json!({"ok": true, "service": "ssh-mcp"}))
+    Json(json!({"ok": true, "service": "shell4AI"}))
 }
 
 async fn require_bearer(

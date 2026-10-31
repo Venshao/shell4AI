@@ -1,16 +1,16 @@
 [package]
-name = "ssh-mcp"
+name = "shell4ai"
 version = "0.1.0"
 description = "Independent desktop SSH MCP server. Not affiliated with any company."
-authors = ["SSH MCP Contributors"]
+authors = ["shell4AI Contributors"]
 edition = "2021"
 
 [lib]
-name = "ssh_mcp_lib"
+name = "shell4ai_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [[bin]]
-name = "ssh-mcp"
+name = "shell4AI"
 path = "src/main.rs"
 
 [build-dependencies]

@@ -6,7 +6,7 @@ $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
-$sourceExe = Join-Path $root "src-tauri\target\bundle-release\ssh-mcp.exe"
+$sourceExe = Join-Path $root "src-tauri\target\bundle-release\shell4AI.exe"
 if (-not (Test-Path $sourceExe)) {
     throw "缺少 release 可执行文件。请先运行 scripts\build-standalone.ps1"
 }
@@ -21,25 +21,23 @@ function Remove-VerifiedDirectory([string]$Path) {
 }
 
 $dist = Join-Path $root "dist"
-$portable = Join-Path $dist "SSH-MCP-portable"
-$zip = Join-Path $dist "SSH-MCP_0.1.0_x64-portable.zip"
+$portable = Join-Path $dist "shell4AI-portable"
+$zip = Join-Path $dist "shell4AI_0.1.0_x64-portable.zip"
 New-Item -ItemType Directory -Force -Path $dist | Out-Null
 Remove-VerifiedDirectory $portable
 New-Item -ItemType Directory -Force -Path $portable | Out-Null
 
-Copy-Item -LiteralPath $sourceExe -Destination (Join-Path $portable "SSH MCP.exe")
+Copy-Item -LiteralPath $sourceExe -Destination (Join-Path $portable "shell4AI.exe")
 
 @"
-SSH MCP Portable
-================
+shell4AI Portable
+=================
 
-1. Double-click "SSH MCP.exe".
+1. Double-click "shell4AI.exe".
 2. The application starts with a tray icon.
 3. Closing the window hides it to the tray.
 4. Use the tray menu to exit and stop the MCP service.
 5. Login autostart can be enabled or disabled in the title bar.
-
-This portable build is a single native executable. No Python runtime is required.
 
 User data is stored in:
 %APPDATA%\SSH-MCP

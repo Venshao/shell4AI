@@ -2,7 +2,7 @@
   "bundle": {
     "active": true,
     "targets": ["nsis"],
-    "publisher": "SSH MCP",
+    "publisher": "shell4AI",
     "copyright": "Independent project. Not affiliated with any company."
   }
 }

@@ -8,7 +8,7 @@ $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
 if (-not $ExePath) {
-    $ExePath = Join-Path $root "dist\SSH-MCP-portable\SSH MCP.exe"
+    $ExePath = Join-Path $root "dist\shell4AI-portable\shell4AI.exe"
 }
 if (-not (Test-Path -LiteralPath $ExePath)) {
     throw "找不到便携版可执行文件: $ExePath"
@@ -19,7 +19,7 @@ New-Item -ItemType Directory -Force -Path $tempData | Out-Null
 $env:SSH_MCP_DATA_DIR = $tempData
 
 $runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
-$runName = "SSH MCP"
+$runName = "shell4AI"
 $hadRun = $false
 $previousRun = $null
 if (Get-ItemProperty -Path $runKey -Name $runName -ErrorAction SilentlyContinue) {

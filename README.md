@@ -1,4 +1,4 @@
-# SSH MCP
+# shell4AI
 
 在 Windows 本机托管 SSH，让 Cursor / Claude Code / Codex 等 AI Agent **只凭主机别名或 IP 执行命令**，密码留在你自己的电脑里，不会进对话、也不会交给 Agent。
 
@@ -18,8 +18,8 @@ MCP 接入（可一键复制 Cursor / Claude Code / Codex 配置）：
 
 任选一种方式：
 
-- **便携版**：解压后双击 `SSH MCP.exe`
-- **安装包**：运行 `SSH MCP_0.1.0_x64-setup.exe` 安装后启动
+- **便携版**：解压后双击 `shell4AI.exe`
+- **安装包**：运行 `shell4AI_0.1.0_x64-setup.exe` 安装后启动
 - **从源码运行**（需本机开发环境）：见文末「开发与构建」
 
 启动后会出现托盘图标。关闭窗口只会隐藏到托盘；要停止服务请用托盘菜单「退出」。
@@ -34,7 +34,7 @@ MCP 接入（可一键复制 Cursor / Claude Code / Codex 配置）：
 
 ### 3. 把 MCP 接到你的 AI 工具
 
-1. 保持 SSH MCP **正在运行**。
+1. 保持 shell4AI **正在运行**。
 2. 点击顶栏 **MCP**。
 3. 选择 **Cursor / Claude Code / Codex** 标签，复制配置。
 4. 粘贴到对应工具的配置文件并按界面提示重启 / 启用。
@@ -121,10 +121,10 @@ npm run tauri -- dev
 常见输出：
 
 ```text
-src-tauri\target\bundle-release\ssh-mcp.exe
-src-tauri\target\bundle-release\bundle\nsis\SSH MCP_0.1.0_x64-setup.exe
-dist\SSH-MCP-portable\SSH MCP.exe
-dist\SSH-MCP_0.1.0_x64-portable.zip
+src-tauri\target\bundle-release\shell4AI.exe
+src-tauri\target\bundle-release\bundle\nsis\shell4AI_0.1.0_x64-setup.exe
+dist\shell4AI-portable\shell4AI.exe
+dist\shell4AI_0.1.0_x64-portable.zip
 ```
 
 ### 数据目录与实现要点
@@ -137,7 +137,7 @@ dist\SSH-MCP_0.1.0_x64-portable.zip
 | `settings.json` | MCP 地址与加密 Token |
 | `master.key.dpapi` | DPAPI 保护的 AES 主密钥 |
 | `audit.jsonl` | 审计 |
-| `logs\ssh-mcp.log` | 运行日志 |
+| `logs\shell4AI.log` | 运行日志 |
 
 技术栈摘要：Rust + Tauri 2、React GUI、`russh` SSH/SFTP、本机 Streamable HTTP MCP、AES-256-GCM + Windows DPAPI、主机指纹强制校验。
 

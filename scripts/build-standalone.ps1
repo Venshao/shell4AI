@@ -15,7 +15,7 @@ Assert-ExitCode "构建前端"
 npx tauri build --config src-tauri\tauri.bundle.json -- --profile bundle-release
 Assert-ExitCode "构建 Tauri release"
 
-$exe = Join-Path $root "src-tauri\target\bundle-release\ssh-mcp.exe"
+$exe = Join-Path $root "src-tauri\target\bundle-release\shell4AI.exe"
 $nsis = Join-Path $root "src-tauri\target\bundle-release\bundle\nsis"
 Write-Host "Release exe: $exe"
 if (Test-Path $nsis) {

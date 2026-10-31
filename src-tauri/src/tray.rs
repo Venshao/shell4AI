@@ -8,7 +8,7 @@ pub fn init(app: &App) -> tauri::Result<()> {
     let show = MenuItem::with_id(app, "show", "打开管理界面", true, None::<&str>)?;
     let hide = MenuItem::with_id(app, "hide", "隐藏窗口", true, None::<&str>)?;
     let separator = PredefinedMenuItem::separator(app)?;
-    let quit = MenuItem::with_id(app, "quit", "退出 SSH MCP", true, None::<&str>)?;
+    let quit = MenuItem::with_id(app, "quit", "退出 shell4AI", true, None::<&str>)?;
     let menu = Menu::with_items(app, &[&show, &hide, &separator, &quit])?;
 
     let icon = app
@@ -18,7 +18,7 @@ pub fn init(app: &App) -> tauri::Result<()> {
 
     let tray = TrayIconBuilder::new()
         .icon(icon)
-        .tooltip("SSH MCP")
+        .tooltip("shell4AI")
         .menu(&menu)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| match event.id().as_ref() {

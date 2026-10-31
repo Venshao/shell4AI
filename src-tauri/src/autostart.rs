@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 use crate::error::{AppError, AppResult};
 
 const RUN_KEY: &str = r"Software\Microsoft\Windows\CurrentVersion\Run";
-const VALUE_NAME: &str = "SSH MCP";
+const VALUE_NAME: &str = "shell4AI";
 
 #[derive(Debug, Clone)]
 pub struct AutostartManager {
@@ -16,7 +16,7 @@ impl AutostartManager {
     }
 
     pub fn current() -> Self {
-        Self::new(std::env::current_exe().unwrap_or_else(|_| PathBuf::from("ssh-mcp.exe")))
+        Self::new(std::env::current_exe().unwrap_or_else(|_| PathBuf::from("shell4AI.exe")))
     }
 
     pub fn command(&self) -> String {
@@ -81,7 +81,7 @@ mod tests {
 
     #[test]
     fn command_uses_quoted_current_executable() {
-        let command = build_autostart_command(Path::new(r"C:\Apps\SSH MCP\ssh-mcp.exe"));
-        assert_eq!(command, r#""C:\Apps\SSH MCP\ssh-mcp.exe" --autostart"#);
+        let command = build_autostart_command(Path::new(r"C:\Apps\shell4AI\shell4AI.exe"));
+        assert_eq!(command, r#""C:\Apps\shell4AI\shell4AI.exe" --autostart"#);
     }
 }

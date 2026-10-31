@@ -59,7 +59,7 @@ function buildCursorConfig(endpoint: string, token: string): string {
   return JSON.stringify(
     {
       mcpServers: {
-        "ssh-mcp": {
+        shell4AI: {
           url: endpoint,
           headers: {
             Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ function buildClaudeConfig(endpoint: string, token: string): string {
   return JSON.stringify(
     {
       mcpServers: {
-        "ssh-mcp": {
+        shell4AI: {
           type: "http",
           url: endpoint,
           headers: {
@@ -91,11 +91,11 @@ function buildClaudeConfig(endpoint: string, token: string): string {
 }
 
 function buildClaudeCli(endpoint: string, token: string): string {
-  return `claude mcp add --transport http ssh-mcp ${endpoint} --header "Authorization: Bearer ${token}"`;
+  return `claude mcp add --transport http shell4AI ${endpoint} --header "Authorization: Bearer ${token}"`;
 }
 
 function buildCodexToml(endpoint: string, token: string): string {
-  return `[mcp_servers.ssh-mcp]
+  return `[mcp_servers.shell4AI]
 url = "${endpoint}"
 http_headers = { Authorization = "Bearer ${token}" }`;
 }
@@ -365,7 +365,7 @@ export default function App() {
     <div className="app-shell">
       <header className="topbar">
         <div className="brand">
-          <h1>SSH MCP</h1>
+          <h1>shell4AI</h1>
           <p>本机 SSH 主机管理</p>
         </div>
 
@@ -680,7 +680,7 @@ export default function App() {
                       <code>.cursor/mcp.json</code>
                     </li>
                     <li>把下面整段合并进已有 <code>mcpServers</code>（或直接粘贴为完整文件）</li>
-                    <li>保存后重启 Cursor，在 Settings → MCP 启用 <code>ssh-mcp</code></li>
+                    <li>保存后重启 Cursor，在 Settings → MCP 启用 <code>shell4AI</code></li>
                   </ol>
                   <ConfigSnippet
                     title="Cursor mcp.json"

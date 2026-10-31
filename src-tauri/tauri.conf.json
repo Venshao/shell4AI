@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "SSH MCP",
+  "productName": "shell4AI",
   "version": "0.1.0",
-  "identifier": "app.sshmcp.desktop",
+  "identifier": "app.shell4ai.desktop",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -14,7 +14,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "SSH MCP",
+        "title": "shell4AI",
         "width": 1120,
         "height": 760,
         "minWidth": 900,
@@ -30,10 +30,10 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "publisher": "SSH MCP",
+    "publisher": "shell4AI",
     "copyright": "Independent project. Not affiliated with any company.",
-    "shortDescription": "Local desktop SSH MCP server",
-    "longDescription": "Independent personal/open desktop tool for managing SSH hosts and exposing a local MCP endpoint. Not affiliated with any company.",
+    "shortDescription": "Local desktop SSH MCP server (shell4AI)",
+    "longDescription": "shell4AI is an independent desktop tool for managing SSH hosts and exposing a local MCP endpoint. Not affiliated with any company.",
     "icon": ["icons/icon.png", "icons/icon.ico"]
   }
 }

@@ -5,7 +5,7 @@ pub fn init(data_dir: &Path) {
     if std::fs::create_dir_all(&log_dir).is_err() {
         return;
     }
-    let appender = tracing_appender::rolling::daily(log_dir, "ssh-mcp.log");
+    let appender = tracing_appender::rolling::daily(log_dir, "shell4AI.log");
     let (writer, guard) = tracing_appender::non_blocking(appender);
     let filter = tracing_subscriber::EnvFilter::try_from_default_env()
         .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info"));
