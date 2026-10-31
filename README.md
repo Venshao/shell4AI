@@ -1,38 +1,98 @@
 # SSH MCP
 
-Windows 桌面托盘应用：在 **Rust + Tauri** 单进程内运行 MCP Streamable HTTP 服务，通过 GUI 管理 SSH 主机与加密密码。AI 只需提供已登记的主机别名、主机名或 IP，不需要也拿不到 SSH 密码。
+在 Windows 本机托管 SSH，让 Cursor / Claude Code / Codex 等 AI Agent **只凭主机别名或 IP 执行命令**，密码留在你自己的电脑里，不会进对话、也不会交给 Agent。
 
-## 主要功能
+## 界面预览
 
-- Tauri 2 + React 桌面 GUI
-- 系统托盘：关闭窗口隐藏，托盘退出才停止 MCP
-- 用户登录自启动（`HKCU\...\Run`）
-- 单实例运行，重复启动唤出已有窗口
-- 进程内 MCP：`http://127.0.0.1:8765/mcp`
-- 多主机 SSH 连接池（`russh` + SFTP）
-- SSH 主机指纹确认与强制校验
-- AES-256-GCM 加密 SSH 密码；主密钥由 Windows DPAPI CurrentUser 保护
-- JSON 原子写入、备份与数据目录 ACL
-- MCP Bearer Token 鉴权
-- 审计日志不记录密码或完整命令正文
+主机列表：
 
-## 技术要求
+![主机列表](image/image1.png)
+
+MCP 接入（可一键复制 Cursor / Claude Code / Codex 配置）：
+
+![MCP 接入](image/image2.png)
+
+## 快速开始
+
+### 1. 启动应用
+
+任选一种方式：
+
+- **便携版**：解压后双击 `SSH MCP.exe`
+- **安装包**：运行 `SSH MCP_0.1.0_x64-setup.exe` 安装后启动
+- **从源码运行**（需本机开发环境）：见文末「开发与构建」
+
+启动后会出现托盘图标。关闭窗口只会隐藏到托盘；要停止服务请用托盘菜单「退出」。
+
+### 2. 添加并验证主机
+
+1. 点击「新增主机」，填写别名、IP/主机名、端口、用户名、SSH 密码。
+2. 点击「验证」核对服务器指纹，确认后信任。
+3. 可选：点「测试」确认能连上。
+
+密码只保存在本机（加密存储）。Agent 侧永远看不到密码。
+
+### 3. 把 MCP 接到你的 AI 工具
+
+1. 保持 SSH MCP **正在运行**。
+2. 点击顶栏 **MCP**。
+3. 选择 **Cursor / Claude Code / Codex** 标签，复制配置。
+4. 粘贴到对应工具的配置文件并按界面提示重启 / 启用。
+
+之后在对话里让 AI 使用已登记的别名或 IP 即可，例如：「在 `测试服` 上执行 `hostname`」。
+
+### 4. 日常使用提示
+
+- 需要时打开窗口管理主机；不用时关窗即可，MCP 仍在托盘后台运行。
+- 可在顶栏开关「登录自启动」。
+- 支持亮色 / 暗色主题切换。
+
+## 它能做什么
+
+- 用图形界面管理多台 SSH 主机（增删改、测连通、验证指纹）
+- 本机常驻 MCP 服务，供各类 Agent 调用
+- Agent 只能操作你已登记且已信任的主机；不能传入密码
+- 关闭窗口进托盘，退出才停止服务；支持登录自启动、单实例
+
+MCP 提供的工具：
+
+| 工具 | 作用 |
+|---|---|
+| `list_hosts` | 列出已登记主机（不含凭据） |
+| `ssh_exec` | 在指定主机执行命令 |
+| `ssh_read_file` | 读取远程文本文件 |
+| `ssh_list_dir` | 列出远程目录 |
+
+## 安全说明（给使用者）
+
+- 密码加密保存在本机用户目录，不会通过 MCP 返回给 Agent。
+- MCP 默认只监听 `127.0.0.1`，不要直接暴露到公网。
+- 未确认 SSH 指纹前，不会真正登录执行命令。
+- 当前版本支持密码登录；数据目录默认在 `%APPDATA%\SSH-MCP`。
+
+---
+
+## 开发与构建
+
+以下内容面向想改代码或自行打包的开发者。
+
+### 环境
 
 - Windows 10/11
 - Node.js 20+
 - Rust stable + MSVC 工具链
 - WebView2 Runtime（Windows 11 通常已内置）
 
-Cargo 默认路径：`%USERPROFILE%\.cargo\bin`。建议配置国内 crates 镜像（如 rsproxy sparse）。
+Cargo 默认路径：`%USERPROFILE%\.cargo\bin`。国内网络建议自备 crates 镜像（如 rsproxy sparse）。
 
-## 开发
+### 开发
 
 ```powershell
 .\scripts\setup.ps1
 .\scripts\run-dev.ps1
 ```
 
-分步：
+或分步：
 
 ```powershell
 $env:PATH = "$env:USERPROFILE\.cargo\bin;$env:PATH"
@@ -50,47 +110,26 @@ npm run tauri -- dev
 .\scripts\check.ps1
 ```
 
-## GUI 使用
+### 打包
 
-1. 添加主机：别名、主机名/IP、端口、用户名、SSH 密码。
-2. 「验证指纹」→ 核对后信任。
-3. 「测试连接」验证密码与主机密钥。
-4. 在「Agent 接入」复制 Endpoint 与 Token。
-5. 关闭窗口进托盘；托盘「退出」才会停止 MCP。
+```powershell
+.\scripts\build-standalone.ps1
+.\scripts\build-portable.ps1
+.\scripts\smoke-portable.ps1
+```
 
-## MCP 接入
+常见输出：
 
 ```text
-http://127.0.0.1:8765/mcp
-Authorization: Bearer <GUI 中的 Token>
+src-tauri\target\bundle-release\ssh-mcp.exe
+src-tauri\target\bundle-release\bundle\nsis\SSH MCP_0.1.0_x64-setup.exe
+dist\SSH-MCP-portable\SSH MCP.exe
+dist\SSH-MCP_0.1.0_x64-portable.zip
 ```
 
-| 工具 | 参数 | 说明 |
-|---|---|---|
-| `list_hosts` | 无 | 列出已登记主机（无凭据） |
-| `ssh_exec` | `host`, `command`, 可选超时/输出上限 | 执行命令 |
-| `ssh_read_file` | `host`, `path`, 可选 `max_bytes` | SFTP 读文本 |
-| `ssh_list_dir` | `host`, `path` | SFTP 列目录 |
+### 数据目录与实现要点
 
-`host` 可以是唯一别名、主机名或 IP。未登记、已禁用或未确认指纹的主机会被拒绝。
-
-冒烟（应用运行中）：
-
-```powershell
-.\scripts\mcp_smoke.ps1 health
-.\scripts\mcp_smoke.ps1 tools -Token <token>
-.\scripts\mcp_smoke.ps1 exec -Token <token> -HostAlias prod-web-1 -Command "hostname"
-```
-
-## 数据目录
-
-默认：`%APPDATA%\SSH-MCP`
-
-开发/测试可覆盖：
-
-```powershell
-$env:SSH_MCP_DATA_DIR = "D:\projects\ssh-mcp\.dev-data"
-```
+默认目录：`%APPDATA%\SSH-MCP`（可用环境变量 `SSH_MCP_DATA_DIR` 覆盖）
 
 | 文件 | 说明 |
 |---|---|
@@ -100,40 +139,13 @@ $env:SSH_MCP_DATA_DIR = "D:\projects\ssh-mcp\.dev-data"
 | `audit.jsonl` | 审计 |
 | `logs\ssh-mcp.log` | 运行日志 |
 
-目录会去掉继承 ACL，仅保留当前用户、SYSTEM、Administrators。
+技术栈摘要：Rust + Tauri 2、React GUI、`russh` SSH/SFTP、本机 Streamable HTTP MCP、AES-256-GCM + Windows DPAPI、主机指纹强制校验。
 
-## 安全说明
-
-- SSH 密码需可逆解密才能登录，因此加密存储而非哈希。
-- GUI 经 Tauri IPC 调后端，不暴露管理 HTTP API。
-- MCP 仅监听 `127.0.0.1`，勿直接暴露公网。
-- 主机密钥未确认前不会发送密码或执行命令。
-- 当前仅支持密码认证；后续可加私钥且不必改 MCP 工具参数。
-- 拥有当前 Windows 用户执行权的程序仍可控制该进程——这是用户级桌面常驻方案的边界。
-
-## 构建安装包 / 便携版
-
-```powershell
-.\scripts\build-standalone.ps1
-.\scripts\build-portable.ps1
-.\scripts\smoke-portable.ps1
-```
-
-输出大致为：
-
-```text
-src-tauri\target\bundle-release\ssh-mcp.exe
-src-tauri\target\bundle-release\bundle\nsis\SSH MCP_0.1.0_x64-setup.exe
-dist\SSH-MCP-portable\SSH MCP.exe
-dist\SSH-MCP_0.1.0_x64-portable.zip
-```
-
-便携版是单个原生 exe，不需要 Python 运行时。
-
-## 项目结构
+项目结构：
 
 ```text
 src/                 React GUI
 src-tauri/src/       Rust 后端（MCP / SSH / 加密 / 托盘 / 自启动）
-scripts/             开发、检查、打包与冒烟脚本
+scripts/             开发、检查、打包脚本
+image/               README 截图
 ```
